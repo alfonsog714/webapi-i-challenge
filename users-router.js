@@ -22,6 +22,39 @@ router.get("/", (req, res) => {
   //   }
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  Users.findById(id)
+    .then(result => {
+      if (!result) {
+        res
+          .status(404)
+          .json({ errorMessage: `A user with an ID of ${id} was not found.` });
+      } else {
+        res.status(200).json(result);
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+      console.log(error);
+    });
+  //   const user = Users.findById(id);
+
+  //   try {
+  //     if (user) {
+  //       console.log(user);
+  //       res.status(200).json(user);
+  //     } else {
+  //       res
+  //         .status(404)
+  //         .json({ message: "A user with the id of " + id + " was not found." });
+  //     }
+  //   } catch (error) {
+  //     res.status(500).json(error);
+  //   }
+});
+
 router.post("/", async (req, res) => {
   if (!isValidUser(req.body)) {
     res
