@@ -71,6 +71,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  Users.remove(id)
+    .then(result => {
+      res.status(200).end();
+    })
+    .catch();
+});
+
+// Helper function
 isValidUser = user => {
   const { name, bio } = user;
   return name && bio;
